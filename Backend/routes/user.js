@@ -59,7 +59,7 @@ router.get('/logout', (req, res)=>{
     }
 })
 
-router.get('/getUser', isLoggedin, async(req,res)=>{
+router.get('/get_user', isLoggedin, async(req, res)=>{
     try {
         const user = await userModel.findOne({_id: req.user.id});
         res.status(200).json({user});

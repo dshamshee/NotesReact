@@ -2,7 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const DB_Connection = require("./config/DB_Connection");
 const path = require("path");
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const postRouter = require("./routes/note");
 const cors = require("cors");
@@ -26,8 +26,8 @@ app.use(
 // Handle preflight requests
 app.options("*", cors());
 
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/user", userRouter);
-app.use("/post", postRouter);
+app.use("/note", postRouter);
 
 app.listen(3000);
