@@ -1,17 +1,58 @@
-import { useMedia } from 'react-use'; 
-
+import { useMedia } from "react-use";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { logout, getUser } from "../utils/api";
+import { useState, useEffect } from "react";
 export const Header = () => {
-  const isDark = useMedia('(prefers-color-scheme: dark)', false);
-  let navBorder = isDark ? "border-gray-800" : "border-white";
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
+
+  useEffect(()=>{
+    const fetchUser = async ()=>{
+      try {
+        const res = await getUser();
+        setUser(res.data.user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    }
+    fetchUser();
+  }, []);
+  console.log(user);
+
+  const handleLogout = async () => {
+    try {
+      const res = await logout();
+      if (res.status === 200) {
+        toast("Logout Successfully");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Logout failed");
+    }
+  };
+
+  const isDark = useMedia("(prefers-color-scheme: dark)", false);
   return (
     <div className={`mainContainer`}>
-      <div className={`innerContainer mt-2 w-[90%]  mx-auto flex justify-between px-10 py-2
-        ${isDark ? "rounded-full shadow shadow-gray-600" : "rounded-full shadow shadow-gray-200"}
-        `}>
+      <div
+        className={`innerContainer mt-2 w-[90%]  mx-auto flex justify-between px-10 py-2
+        ${
+          isDark
+            ? "rounded-full shadow shadow-gray-600"
+            : "rounded-full shadow shadow-gray-200"
+        }
+        `}
+      >
         <div className="logo">
           <h1 className="text-lg font-bold">
             <span className="text-blue-500">Not</span>
-            <span className={`${isDark ? "text-green-500" : "text-pink-500"}`}>ify</span>
+            <span className={`${isDark ? "text-green-500" : "text-pink-500"}`}>
+              ify
+            </span>
           </h1>
         </div>
         <div className="sections">
@@ -23,15 +64,18 @@ export const Header = () => {
           </button>
         </div>
         <div className="profile flex items-center gap-4">
-          <button className="btn btn-warning btn-xs font-bold">LogOut</button>
-          {/* <label className="swap swap-rotate"> */}
-            <input
-              type="checkbox"
-              className="toggle theme-controller"
-              // checked={theme === 'dark'}
-            />
-            {/* <span className="text-xs ml-2">{theme === 'dark' ? '🌙' : '☀️'}</span> */}
-          {/* </label> */}
+          <button
+            onClick={handleLogout}
+            className="btn btn-warning btn-xs font-bold"
+          >
+            LogOut
+          </button>
+          {/* <p className="text-xs font-bold">{Cookies.get('id')}</p> */}
+          <div className="avatar">
+            <div className="ring-primary ring-offset-base-100 w-6 rounded-full ring-2 ring-offset-2">
+              <img src={`../../../Backend/public/images/${user?.avatar}`} alt="avatar" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

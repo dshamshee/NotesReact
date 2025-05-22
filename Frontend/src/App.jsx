@@ -6,6 +6,7 @@ import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { CreateNote } from "./pages/CreateNote";
 import { useMedia } from 'react-use';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   // Get system theme and set the application theme accordingly using react-use library
@@ -48,7 +49,7 @@ function App() {
   return (
     <div data-theme={isDark ? 'dark' : 'light'}>
       <RouterProvider router={router} />
-      {/* <Toaster /> */}
+      <ToastContainer />
     </div>
   );
 }

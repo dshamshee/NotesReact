@@ -22,7 +22,7 @@ router.post('/signup', upload.single('avatar'), async(req, res)=>{
                 })
                 const token = jwt.sign({id: CreatedUser._id, email: CreatedUser.email}, process.env.JWT_SECRET_KEY)
                 res.cookie('token', token, {httpOnly: true})
-                res.status(201).json({message: "User created successfully", user: CreatedUser})
+                res.status(201).json({message: "User created successfully", token: token, id: CreatedUser._id})
             })
         })
     } catch (error) {
@@ -40,7 +40,7 @@ router.post('/login', async(req, res)=>{
             if(result){
                 const token = jwt.sign({id: user._id, email: user.email}, process.env.JWT_SECRET_KEY)
                 res.cookie('token', token, {httpOnly: true})
-                res.status(200).json({message: "User logged in successfully", token: token, email: user.email, id: user._id})
+                res.status(200).json({message: "User logged in successfully", token: token, id: user._id})
             }else{
                 return res.status(400).json({message: "Invalid password"})
             }
@@ -61,7 +61,7 @@ router.get('/logout', (req, res)=>{
 
 router.get('/get_user', isLoggedin, async(req, res)=>{
     try {
-        const user = await userModel.findOne({_id: req.user.id});
+        const user = await userModel.findOne({_id: req.user.id}).select('-password')
         res.status(200).json({user});
     } catch (error) {
         return res.status(500).json({message: error.message});

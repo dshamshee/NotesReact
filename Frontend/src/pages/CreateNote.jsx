@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createNote } from "../utils/api";
+import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
 export const CreateNote = ({isModalOpen, setIsModalOpen}) => {
   // const navigate = useNavigate();
@@ -31,6 +32,7 @@ export const CreateNote = ({isModalOpen, setIsModalOpen}) => {
         // Close the modal
         document.getElementById("my_modal_1").close();
         isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+        toast("Note Created Successfully");
         // navigate('/');
       }
     } catch (error) {

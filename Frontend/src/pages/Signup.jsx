@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { nweUser } from "../utils/api";
-
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 export const Signup = () => {
+  const navigate = useNavigate();
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
@@ -16,7 +19,7 @@ export const Signup = () => {
       const file = e.target.files[0];
       setSignupData({
         ...signupData,
-        [e.target.name]: file
+        [e.target.name]: file,
       });
     } else {
       setSignupData({
@@ -30,13 +33,23 @@ export const Signup = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('name', signupData.name);
-      formData.append('email', signupData.email);
-      formData.append('password', signupData.password);
-      formData.append('avatar', signupData.avatar);
+      formData.append("name", signupData.name);
+      formData.append("email", signupData.email);
+      formData.append("password", signupData.password);
+      formData.append("avatar", signupData.avatar);
 
       const res = await nweUser(formData);
-      console.log(res);
+      if (res.status === 200) {
+        toast("Signup Successfully");
+         // Set cookies with appropriate options
+         Cookies.set('token', res.data.token, { 
+          expires: 7, // Cookie expires in 7 days
+          secure: true, // Only sent over HTTPS
+          sameSite: 'strict' // Protect against CSRF
+        });
+        Cookies.set('id', res.data.id);
+        navigate("/");
+      }
     } catch (error) {
       console.error("Signup error:", error);
     }

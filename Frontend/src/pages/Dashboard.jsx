@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Card } from "./Card";
 import { getNotes } from "../utils/api";
 import { CreateNote } from "./CreateNote";
-
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 export const Dashboard = () => {
+  const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,6 +23,8 @@ export const Dashboard = () => {
         console.error("Error fetching notes:", error);
         setError(error.message);
         setNotes([]); // Ensure notes is always an array
+        toast("Error fetching notes");
+        navigate("/login");
       } finally {
         setLoading(false);
       }

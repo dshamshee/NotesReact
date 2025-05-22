@@ -44,6 +44,26 @@ export const login = async(formData)=>{
     }
 }
 
+export const logout = async () => {
+    try {
+        const res = await api.get('/user/logout');
+        return res;
+    } catch (error) {
+        console.log(error.response.data);
+        throw error;
+    }
+}
+
+export const getUser = async ()=>{
+    try {
+        const res = await api.get('/user/get_user');
+        return res;
+    } catch (error) {
+        console.log(error.response.data);
+        throw error;
+    }
+}
+
 // Note API 
 export const createNote = async(noteData)=>{
     try {
