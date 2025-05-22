@@ -5,7 +5,12 @@ import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { CreateNote } from "./pages/CreateNote";
+import { useMedia } from 'react-use';
+
 function App() {
+  // Get system theme and set the application theme accordingly using react-use library
+  const isDark = useMedia('(prefers-color-scheme: dark)', false);
+
   const router = createBrowserRouter([
     // Protected routes with Header and Footer
     {
@@ -20,7 +25,6 @@ function App() {
           path: "/createNote",
           element: <CreateNote />,
         }
-        
       ],
     },
 
@@ -42,7 +46,7 @@ function App() {
   ]);
 
   return (
-    <div data-theme="dark">
+    <div data-theme={isDark ? 'dark' : 'light'}>
       <RouterProvider router={router} />
       {/* <Toaster /> */}
     </div>

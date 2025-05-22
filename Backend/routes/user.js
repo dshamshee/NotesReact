@@ -40,7 +40,7 @@ router.post('/login', async(req, res)=>{
             if(result){
                 const token = jwt.sign({id: user._id, email: user.email}, process.env.JWT_SECRET_KEY)
                 res.cookie('token', token, {httpOnly: true})
-                res.status(200).json({message: "User logged in successfully", user: user})
+                res.status(200).json({message: "User logged in successfully", token: token, email: user.email, id: user._id})
             }else{
                 return res.status(400).json({message: "Invalid password"})
             }

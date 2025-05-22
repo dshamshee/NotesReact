@@ -5,7 +5,7 @@ dotenv.config();
 
 
 module.exports = async(req, res, next)=>{
-    if(!req.cookies.token) return res.status(401).json({message: "Unauthorized"});
+    if(!req.cookies.token) return res.status(401).json({message: "cookie not found"});
 
     try {
         let decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
@@ -13,6 +13,6 @@ module.exports = async(req, res, next)=>{
         req.user = user;
         next();
     } catch (error) {
-        return res.status(401).json({message: "Unauthorized"});
+        return res.status(401).json({message: error.message});
     }
 }

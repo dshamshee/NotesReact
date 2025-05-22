@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createNote } from "../utils/api";
-
-export const CreateNote = () => {
+// import { useNavigate } from "react-router-dom";
+export const CreateNote = ({isModalOpen, setIsModalOpen}) => {
+  // const navigate = useNavigate();
   const [noteData, setNoteData] = useState({
     title: "",
     caption: "",
@@ -9,24 +10,31 @@ export const CreateNote = () => {
   });
 
   const handleInputChange = (e) => {
-    e.preventDefault();
-    setNoteData({
-      ...noteData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setNoteData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await createNote(noteData);
-    console.log(res);
-
-    if(res.status === 200) {
+    try {
+      const res = await createNote(noteData);
+      if (res.status === 200 || res.status === 201) {
+        // Clear form after successful creation
         setNoteData({
-            title: "",
-            caption: "",
-            content: ""
+          title: "",
+          caption: "",
+          content: "",
         });
+        // Close the modal
+        document.getElementById("my_modal_1").close();
+        isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
+        // navigate('/');
+      }
+    } catch (error) {
+      console.error("Error creating note:", error.response?.data || error.message);
     }
   };
 
@@ -54,11 +62,13 @@ export const CreateNote = () => {
               Create your note to keep track of your thoughts and ideas.
             </p>
             <div className="modal-action">
-              <form method="dialog" className="w-full">
+              <form method="dialog" className="w-full" onSubmit={handleSubmit}>
                 <fieldset className="fieldset">
                   <label className="label">Title</label>
                   <input
                     type="text"
+                    name="title"
+                    value={noteData.title}
                     className="input w-full"
                     placeholder="Title"
                     onChange={handleInputChange}
@@ -66,6 +76,8 @@ export const CreateNote = () => {
                   <label className="label">Caption</label>
                   <input
                     type="text"
+                    name="caption"
+                    value={noteData.caption}
                     className="input w-full"
                     placeholder="Caption"
                     onChange={handleInputChange}
@@ -74,20 +86,20 @@ export const CreateNote = () => {
                   <textarea
                     name="content"
                     id="content"
+                    value={noteData.content}
                     className="input h-16 w-full"
                     placeholder="Content"
                     onChange={handleInputChange}
                   ></textarea>
                 </fieldset>
-                {/* if there is a button in form, it will close the modal */}
                 <div className="button flex flex-row justify-between">
                   <button
+                    type="submit"
                     className="btn btn-accent btn-sm font-bold mt-2"
-                    onClick={handleSubmit}
                   >
                     Create Note
                   </button>
-                  <button className="btn btn-outline btn-sm mt-2">
+                  <button type="button" className="btn btn-outline btn-sm mt-2" onClick={() => document.getElementById("my_modal_1").close()}>
                     Close
                   </button>
                 </div>
