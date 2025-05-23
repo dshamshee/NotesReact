@@ -27,7 +27,7 @@ export const nweUser = async (formData) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        return res.data;
+        return res;
     } catch (error) {
         console.log(error.response.data);
         throw error;

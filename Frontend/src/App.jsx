@@ -9,6 +9,7 @@ import { useMedia } from 'react-use';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
+ 
   // Get system theme and set the application theme accordingly using react-use library
   const isDark = useMedia('(prefers-color-scheme: dark)', false);
 

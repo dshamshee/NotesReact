@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { nweUser } from "../utils/api";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 export const Signup = () => {
   const navigate = useNavigate();
@@ -39,7 +39,8 @@ export const Signup = () => {
       formData.append("avatar", signupData.avatar);
 
       const res = await nweUser(formData);
-      if (res.status === 200) {
+      console.log(res.status);
+      if (res.status === 201) {
         toast("Signup Successfully");
          // Set cookies with appropriate options
          Cookies.set('token', res.data.token, { 
@@ -110,9 +111,10 @@ export const Signup = () => {
               <a className="link link-hover">Forgot password?</a>
             </div>
             <button onClick={handleSignup} className="btn btn-neutral mt-4">
-              Login
+              Signup
             </button>
           </fieldset>
+          <p className="text-center">Already have an account? <Link to="/login">Login</Link></p>
         </form>
       </div>
     </div>

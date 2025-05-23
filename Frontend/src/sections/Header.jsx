@@ -9,24 +9,26 @@ export const Header = () => {
 
   const [user, setUser] = useState({});
 
-  useEffect(()=>{
-    const fetchUser = async ()=>{
+  
+
+  useEffect(() => {
+    const fetchUser = async () => {
       try {
         const res = await getUser();
         setUser(res.data.user);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
-    }
+    };
     fetchUser();
   }, []);
-  console.log(user);
+  // console.log(user.avatar);
 
   const handleLogout = async () => {
     try {
       const res = await logout();
       if (res.status === 200) {
-        toast("Logout Successfully");
+        toast("Logout Successfully", {theme: "dark"});
         navigate("/login");
       }
     } catch (error) {
@@ -73,7 +75,10 @@ export const Header = () => {
           {/* <p className="text-xs font-bold">{Cookies.get('id')}</p> */}
           <div className="avatar">
             <div className="ring-primary ring-offset-base-100 w-6 rounded-full ring-2 ring-offset-2">
-              <img src={`../../../Backend/public/images/${user?.avatar}`} alt="avatar" />
+              <img
+                src={`http://localhost:3000/images/${user.avatar}`}
+                alt="avatar"
+              />
             </div>
           </div>
         </div>
