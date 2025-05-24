@@ -6,7 +6,7 @@ import { logout, getUser } from "../utils/api";
 import { useState, useEffect } from "react";
 export const Header = () => {
   const navigate = useNavigate();
-
+  const isDark = useMedia("(prefers-color-scheme: dark)", false);
   const [user, setUser] = useState({});
 
   
@@ -28,16 +28,20 @@ export const Header = () => {
     try {
       const res = await logout();
       if (res.status === 200) {
-        toast("Logout Successfully", {theme: "dark"});
+        // Remove cookies and localStorage items
+        Cookies.remove('token', { path: '/' });
+        Cookies.remove('id', { path: '/' });
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        toast.success("Logout Successfully", {theme: isDark ? "dark" : "light"});
         navigate("/login");
       }
     } catch (error) {
       console.error("Logout error:", error);
-      toast.error("Logout failed");
+      toast.error("Logout failed", {theme: isDark ? "dark" : "light"});
     }
   };
 
-  const isDark = useMedia("(prefers-color-scheme: dark)", false);
   return (
     <div className={`mainContainer`}>
       <div

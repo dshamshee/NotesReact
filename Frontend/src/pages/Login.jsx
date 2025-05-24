@@ -3,8 +3,13 @@ import { login } from "../utils/api";
 import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useToastConfig } from "../utils/toastConfig";
+import { useMedia } from "react-use";
+
 export const Login = () => {
   const navigate = useNavigate();
+  const isDark = useMedia("(prefers-color-scheme: dark)", false);
+  const toastConfig = useToastConfig();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -22,18 +27,30 @@ export const Login = () => {
     try {
       const res = await login(loginData);
       if (res.status === 200) {
-        // Set cookies with appropriate options
+        // Set cookies with minimal restrictions for local development
         Cookies.set("token", res.data.token, {
-          expires: 7, // Cookie expires in 7 days
-          secure: true, // Only sent over HTTPS
-          sameSite: "strict", // Protect against CSRF
+          expires: 7,
+          path: '/',
+          sameSite: 'none',
+          secure: false
         });
-        Cookies.set("id", res.data.id);
-        toast("Login Successfully");
+        Cookies.set("id", res.data.id, {
+          expires: 7,
+          path: '/',
+          sameSite: 'none',
+          secure: false
+        });
+
+        // Also store in localStorage as backup
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', res.data.id);
+        
+        toast.success("Login Successfully", toastConfig);
         navigate("/");
       }
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error.response?.data);
+      toast.error("Login failed", toastConfig);
     }
   };
 
@@ -42,7 +59,7 @@ export const Login = () => {
       <div className="innerContainer w-[20%] h-auto max-auto">
         <h1 className="text-2xl font-bold text-center">
           Welcome to <span className="text-primary">Not</span>
-          <span className="text-success">ify</span>
+          <span className={`${isDark ? "text-success" : "text-pink-500"}`}>ify</span>
         </h1>
         <p className="text-center">Login to your account to continue</p>
         <form action="">

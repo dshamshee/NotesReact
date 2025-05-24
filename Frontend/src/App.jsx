@@ -7,6 +7,9 @@ import { Signup } from "./pages/Signup";
 import { CreateNote } from "./pages/CreateNote";
 import { useMedia } from 'react-use';
 import { ToastContainer } from 'react-toastify';
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { UpdateNote } from "./pages/UpdateNote";
+import { getNote } from "./utils/api";
 
 function App() {
  
@@ -17,7 +20,11 @@ function App() {
     // Protected routes with Header and Footer
     {
       path: "/",
-      element: <MainLayout />,
+      element: (
+        <ProtectedRoute>
+          <MainLayout />
+        </ProtectedRoute>
+      ),
       children: [
         {
           path: "/",
@@ -26,6 +33,11 @@ function App() {
         {
           path: "/createNote",
           element: <CreateNote />,
+        },
+        {
+          path: "/updateNote/:id",
+          element: <UpdateNote />,
+          loader: getNote,
         }
       ],
     },

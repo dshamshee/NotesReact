@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { createNote } from "../utils/api";
 import { toast } from "react-toastify";
+import { useToastConfig } from "../utils/toastConfig";
 // import { useNavigate } from "react-router-dom";
 export const CreateNote = ({isModalOpen, setIsModalOpen}) => {
   // const navigate = useNavigate();
+  const toastConfig = useToastConfig();
   const [noteData, setNoteData] = useState({
     title: "",
     caption: "",
@@ -32,11 +34,12 @@ export const CreateNote = ({isModalOpen, setIsModalOpen}) => {
         // Close the modal
         document.getElementById("my_modal_1").close();
         isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true);
-        toast("Note Created Successfully");
+        toast.success("Note Created Successfully", toastConfig);
         // navigate('/');
       }
     } catch (error) {
       console.error("Error creating note:", error.response?.data || error.message);
+      toast.error("Failed to create note", toastConfig);
     }
   };
 
@@ -101,7 +104,11 @@ export const CreateNote = ({isModalOpen, setIsModalOpen}) => {
                   >
                     Create Note
                   </button>
-                  <button type="button" className="btn btn-outline btn-sm mt-2" onClick={() => document.getElementById("my_modal_1").close()}>
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm mt-2"
+                    onClick={() => document.getElementById("my_modal_1").close()}
+                  >
                     Close
                   </button>
                 </div>

@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-
 export const api = axios.create({
     baseURL: "http://localhost:3000",
     withCredentials: true, // This enables sending cookies with requests
@@ -78,6 +77,18 @@ export const createNote = async(noteData)=>{
 export const getNotes = async()=>{
     try {
         const res = await api.get('/note/allNotes');
+        return res;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+
+export const getNote = async({params})=>{
+    const id = params.id;
+    try {
+        const res = await api.get(`/note/getNote/${id}`);
         return res;
     } catch (error) {
         console.log(error);

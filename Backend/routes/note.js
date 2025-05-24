@@ -46,6 +46,16 @@ router.get('/deleteNote/:id', isLoggedin, async(req, res)=>{
 })
 
 
+router.get('/getNote/:id', isLoggedin, async(req, res)=>{
+    try {
+        const id = req.params.id;
+        const note = await noteModel.findOne({_id: id, author: req.user.id});
+        res.status(200).json({note});
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }
+})  
+
 router.get('/allNotes', isLoggedin, async(req , res)=>{
     try {
         const notes = await noteModel.find({author: req.user.id});
