@@ -74,7 +74,7 @@ export const Signup = () => {
 
   return (
     <div className="mainContainer flex justify-center items-center h-screen">
-      <div className="innerContainer w-[20%] h-auto max-auto">
+      <div className="innerContainer md:w-[20%] h-auto max-auto">
         <h1 className="text-2xl font-bold text-center">
           Welcome to <span className="text-primary">Not</span>
           <span className={`${isDark ? "text-success" : "text-pink-500"}`}>ify</span>
@@ -123,7 +123,7 @@ export const Signup = () => {
               placeholder="Avatar"
               onChange={handleInputChange}
             />
-            <button onClick={handleSignup} className="btn btn-neutral mt-4 w-full">
+            <button onClick={handleSignup} className={`btn btn-neutral mt-4 w-full ${isDark ? "btn-dark" : "btn-primary"}`}>
               Signup
             </button>
           </fieldset>

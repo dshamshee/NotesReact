@@ -5,6 +5,9 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useToastConfig } from "../utils/toastConfig";
 import { useMedia } from "react-use";
+import GoogleLoginButton from "../components/GoogleLoginButton";
+
+
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -14,6 +17,9 @@ export const Login = () => {
     email: "",
     password: "",
   });
+
+
+
 
   const handleInputChange = (e) => {
     setLoginData({
@@ -56,7 +62,7 @@ export const Login = () => {
 
   return (
     <div className="mainContainer flex justify-center items-center h-screen">
-      <div className="innerContainer w-[20%] h-auto max-auto">
+      <div className="innerContainer md:w-[20%] h-auto max-auto">
         <h1 className="text-2xl font-bold text-center">
           Welcome to <span className="text-primary">Not</span>
           <span className={`${isDark ? "text-success" : "text-pink-500"}`}>ify</span>
@@ -83,11 +89,12 @@ export const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
-            <button onClick={handleLogin} className="btn btn-neutral mt-4">
+            <button onClick={handleLogin} className={`btn btn-neutral mt-4 ${isDark ? "btn-dark" : "btn-primary"}`}>
               Login
             </button>
           </fieldset>
         </form>
+        <GoogleLoginButton />
         <p className="text-center">
           Don't have an account?{" "}
           <Link to="/signup" className="link link-hover text-primary">

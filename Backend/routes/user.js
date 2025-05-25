@@ -50,6 +50,54 @@ router.post('/login', async(req, res)=>{
     }
 })
 
+// Google Login endpoint
+router.post('/google-login', async (req, res) => {
+    const { name, email, avatar, googleId } = req.body;
+    
+    try {
+        // Check if user exists
+        let user = await userModel.findOne({ 
+            $or: [
+                { email: email },
+                { googleId: googleId }
+            ]
+        });
+
+        if (!user) {
+            // Create new user if doesn't exist
+            user = await userModel.create({
+                name,
+                email,
+                avatar,
+                googleId
+            });
+        } else {
+            // Update existing user's Google ID if not set
+            if (!user.googleId) {
+                user.googleId = googleId;
+                await user.save();
+            }
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET_KEY
+        );
+
+        // Set cookie and send response
+        res.cookie('token', token, { httpOnly: true });
+        res.status(200).json({
+            message: "Google login successful",
+            token: token,
+            id: user._id
+        });
+    } catch (error) {
+        console.error("Google login error:", error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
 router.get('/logout', (req, res)=>{
     try {
         res.clearCookie('token');

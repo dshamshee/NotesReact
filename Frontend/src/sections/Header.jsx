@@ -24,6 +24,14 @@ export const Header = () => {
   }, []);
   // console.log(user.avatar);
 
+  const handleAvatar = ()=>{
+    if(user.googleId){
+      return user.avatar
+    }else{
+      return `http://localhost:3000/images/${user.avatar}`
+    }
+  }
+
   const handleLogout = async () => {
     try {
       const res = await logout();
@@ -45,7 +53,7 @@ export const Header = () => {
   return (
     <div className={`mainContainer`}>
       <div
-        className={`innerContainer mt-2 w-[90%]  mx-auto flex justify-between px-10 py-2
+        className={`innerContainer mt-2 w-[90%]  mx-auto flex justify-between px-2 md:px-10 py-2
         ${
           isDark
             ? "rounded-full shadow shadow-gray-600"
@@ -80,7 +88,7 @@ export const Header = () => {
           <div className="avatar">
             <div className="ring-primary ring-offset-base-100 w-6 rounded-full ring-2 ring-offset-2">
               <img
-                src={`http://localhost:3000/images/${user.avatar}`}
+                src={handleAvatar()}
                 alt="avatar"
               />
             </div>

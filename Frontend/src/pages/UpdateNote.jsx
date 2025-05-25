@@ -35,7 +35,7 @@ export const UpdateNote = () => {
 
   return (
     <div className="mainContainer w-full flex justify-center items-center">
-      <div className="innerContainer w-[40%] mx-auto p-3 ">
+      <div className="innerContainer w-[90%] md:w-[40%] mx-auto p-3 ">
         
           <div className="">
             <h3 className="font-bold text-lg text-center">Welcome to Notify</h3>
