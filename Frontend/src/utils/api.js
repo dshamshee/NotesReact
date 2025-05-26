@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 export const api = axios.create({
-    baseURL: "http://localhost:3000",
+    // baseURL: "http://localhost:3000",
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
     withCredentials: true, // This enables sending cookies with requests
     headers: {
         'Content-Type': 'application/json'
