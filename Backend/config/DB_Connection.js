@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// mongoose.connect('mongodb://localhost:27017/NotesReact')
-mongoose.connect(process.env.DB_LOCAL_CONNECTION_STRING)
+mongoose.connect('mongodb://localhost:27017/NotesReact')
+// mongoose.connect(process.env.DB_LOCAL_CONNECTION_STRING)
 .then(() => {
     console.log('Connected to MongoDB');
 })
