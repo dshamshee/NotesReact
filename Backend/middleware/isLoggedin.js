@@ -5,10 +5,10 @@ dotenv.config();
 
 
 module.exports = async(req, res, next)=>{
-    if(!req.cookies.token) return res.status(401).json({message: "cookie not found"});
+    if(!req.headers.authorization) return res.status(401).json({message: "cookie not found"});
+    console.log(`Backend geted token: ${req.headers.authorization}`);
 
     try {
-        console.log(`Backend geted token: ${req.headers.authorization}`);
         // let decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
         let decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY);
         let user = await userModel.findOne({_id: decoded.id}).select('-password');
