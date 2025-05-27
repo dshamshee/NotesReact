@@ -21,7 +21,7 @@ const frontendUrl = process.env.FRONTEND_BASE_URL;
 const backendUrl = process.env.RENDER_URL;
 app.use(
   cors({
-    origin: [frontendUrl, backendUrl],
+    origin: process.env.FRONTEND_BASE_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -29,7 +29,13 @@ app.use(
 );
 
 // Handle preflight requests
-app.options("*", cors());
+app.options("/*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_BASE_URL);
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(200);
+});
 
 // app.use("/", indexRouter);
 app.use("/user", userRouter);
