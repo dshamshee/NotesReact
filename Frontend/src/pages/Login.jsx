@@ -33,18 +33,19 @@ export const Login = () => {
     try {
       const res = await login(loginData);
       if (res.status === 200) {
+        console.log("You  are logged in successfully");
         // Set cookies with minimal restrictions for local development
         Cookies.set("token", res.data.token, {
           expires: 7,
           path: '/',
           sameSite: 'none',
-          secure: false
+          secure: true
         });
         Cookies.set("id", res.data.id, {
           expires: 7,
           path: '/',
           sameSite: 'none',
-          secure: false
+          secure: true
         });
 
         // Also store in localStorage as backup
