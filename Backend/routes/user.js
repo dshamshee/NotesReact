@@ -25,12 +25,12 @@ router.post("/signup", upload.single("avatar"), async (req, res) => {
           process.env.JWT_SECRET_KEY
         );
         // res.cookie('token', token)
-        res.cookie("token", token, {
-          httpOnly: true,
-          secure: true, // Required for HTTPS
-          sameSite: "none", // Required for cross-site
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
+        // res.cookie("token", token, {
+        //   httpOnly: true,
+        //   secure: true, // Required for HTTPS
+        //   sameSite: "none", // Required for cross-site
+        //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        // });
         res
           .status(201)
           .json({
@@ -57,12 +57,12 @@ router.post("/login", async (req, res) => {
           process.env.JWT_SECRET_KEY
         );
         // res.cookie('token', token)
-        res.cookie("token", token, {
-          httpOnly: true,
-          secure: true, // Required for HTTPS
-          sameSite: "none", // Required for cross-site
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
+        // res.cookie("token", token, {
+        //   httpOnly: true,
+        //   secure: true, // Required for HTTPS
+        //   sameSite: "none", // Required for cross-site
+        //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        // });
         res
           .status(200)
           .json({
@@ -113,12 +113,12 @@ router.post("/google-login", async (req, res) => {
 
     // Set cookie and send response
     // res.cookie('token', token);
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true, // Required for HTTPS
-      sameSite: "none", // Required for cross-site
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: true, // Required for HTTPS
+    //   sameSite: "none", // Required for cross-site
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // });
     res.status(200).json({
       message: "Google login successful",
       token: token,
