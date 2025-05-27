@@ -35,4 +35,7 @@ app.options("*", cors());
 app.use("/user", userRouter);
 app.use("/note", postRouter);
 
-app.listen("https://notesreact.onrender.com");
+// app.listen("https://notesreact.onrender.com");
+app.listen(process.env.PORT,  ()=> {
+  console.log(`app is live on ${process.env.PORT}`)
+});
