@@ -17,7 +17,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Enable CORS for specific origin
 const frontendUrl = process.env.FRONTEND_BASE_URL;
-const backendUrl = process.env.BACKEND_BASE_URL;
+// const backendUrl = process.env.BACKEND_BASE_URL;
+const backendUrl = process.env.RENDER_URL;
 app.use(
   cors({
     origin: [frontendUrl, backendUrl],
@@ -34,4 +35,4 @@ app.options("*", cors());
 app.use("/user", userRouter);
 app.use("/note", postRouter);
 
-app.listen(3000);
+app.listen("https://notesreact.onrender.com");
