@@ -6,7 +6,7 @@ dotenv.config();
 
 module.exports = async(req, res, next)=>{
     if(!req.headers.authorization) return res.status(401).json({message: "cookie not found"});
-    console.log(`Backend geted token: ${req.headers.authorization}`);
+    // console.log(`Backend geted token: ${req.headers.authorization}`);
 
     try {
         // let decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
