@@ -28,7 +28,7 @@ export const Header = () => {
     if(user.googleId){
       return user.avatar
     }else{
-      return `http://localhost:3000/images/${user.avatar}`
+      return `${import.meta.env.VITE_BACKEND_BASE_URL}/images/${user.avatar}`
     }
   }
 
