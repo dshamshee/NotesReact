@@ -11,10 +11,11 @@ export const api = axios.create({
 
 // Add request interceptor to include token in headers
 api.interceptors.request.use((config) => {
-    const token = Cookies.get('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+  // const token = Cookies.get("token");
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
     return config;
 }, (error) => {
     return Promise.reject(error);
